@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Zugvogel Yoga – Yoga für alle Lebenslagen</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@500;700&family=Outfit:wght@300;400;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --washi:#faf7f0;     /* Washi-Papier */
+    --ink:#1a1a18;       /* Sumi-Tusche */
+    --ink-soft:#4d4c46;  /* verdünnte Tusche */
+    --hanko:#c1442e;     /* Stempelrot */
+    --mist:#e8e4d9;      /* heller Nebel für Flächen */
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{
+    font-family:'Outfit',sans-serif;
+    font-weight:300;
+    background:var(--washi);
+    color:var(--ink);
+    line-height:1.7;
+  }
+  h1,h2,h3{font-family:'Shippori Mincho',serif;font-weight:700;line-height:1.15}
+
+  /* ---------- Navigation ---------- */
+  nav{
+    display:flex;justify-content:space-between;align-items:center;
+    padding:1.4rem 6vw;
+    position:sticky;top:0;z-index:50;
+    background:rgba(250,247,240,.94);backdrop-filter:blur(8px);
+    border-bottom:1px solid var(--ink);
+  }
+  .logo{
+    display:flex;align-items:center;gap:.7rem;
+    font-family:'Shippori Mincho',serif;font-weight:700;font-size:1.1rem;
+    color:var(--ink);text-decoration:none;letter-spacing:.04em;
+  }
+  .logo svg{width:32px;height:32px}
+  nav ul{display:flex;gap:2.4rem;list-style:none;align-items:center}
+  nav ul a{
+    color:var(--ink);text-decoration:none;font-weight:400;font-size:.9rem;
+    letter-spacing:.08em;text-transform:uppercase;
+  }
+  nav ul a:hover{color:var(--hanko)}
+  .nav-cta{
+    border:1.5px solid var(--ink);padding:.45rem 1.2rem;border-radius:0;
+    transition:all .2s;
+  }
+  .nav-cta:hover{background:var(--ink);color:var(--washi)!important}
+  @media(max-width:680px){nav ul{display:none}}
+
+  /* ---------- Hero ---------- */
+  .hero{
+    min-height:88vh;
+    display:grid;
+    grid-template-columns:1fr auto;
+    align-items:center;
+    padding:4rem 6vw 6rem;
+    max-width:1300px;margin:0 auto;
+    gap:3rem;
+    position:relative;
+  }
+  .hero-text{max-width:620px}
+  .kanji-mark{
+    font-family:'Shippori Mincho',serif;
+    font-size:.95rem;letter-spacing:.5em;
+    color:var(--hanko);
+    margin-bottom:2rem;
+    display:flex;align-items:center;gap:1.2rem;
+  }
+  .kanji-mark::after{content:"";height:1px;width:60px;background:var(--hanko)}
+  .hero h1{
+    font-size:clamp(2.8rem,6.5vw,5rem);
+    letter-spacing:-.01em;
+  }
+  .hero h1 .stroke{
+    position:relative;white-space:nowrap;
+  }
+  .hero h1 .stroke::after{
+    content:"";position:absolute;left:-2%;right:-2%;bottom:.08em;height:.22em;
+    background:var(--hanko);opacity:.28;z-index:-1;
+    transform:skewY(-.6deg);
+  }
+  .hero p.lede{
+    margin-top:2rem;font-size:1.1rem;color:var(--ink-soft);max-width:44ch;
+  }
+  .hero-actions{margin-top:2.8rem;display:flex;gap:1.4rem;flex-wrap:wrap}
+  .btn{
+    font-family:'Outfit',sans-serif;font-weight:600;font-size:.9rem;
+    letter-spacing:.1em;text-transform:uppercase;
+    padding:1rem 2rem;text-decoration:none;
+    transition:all .2s;
+  }
+  .btn-ink{background:var(--ink);color:var(--washi)}
+  .btn-ink:hover{background:var(--hanko)}
+  .btn-line{border:1.5px solid var(--ink);color:var(--ink)}
+  .btn-line:hover{border-color:var(--hanko);color:var(--hanko)}
+
+  /* Großer Tusche-Kranich rechts */
+  .hero-crane{
+    width:clamp(220px,28vw,400px);
+  }
+  .hero-crane svg{width:100%;height:auto}
+  .crane-line{
+    fill:none;stroke:var(--ink);stroke-width:2.5;
+    stroke-linecap:round;stroke-linejoin:round;
+  }
+  .crane-accent{stroke:var(--hanko)}
+  .crane-enso{
+    stroke:var(--hanko);stroke-width:3.6;
+  }
+  /* Strichanimation beim Laden – wie gezeichnet: erst der Ensō, dann der Vogel */
+  .hero-crane path{
+    stroke-dasharray:600;
+    stroke-dashoffset:600;
+    animation:draw 2.2s ease forwards;
+  }
+  .hero-crane path:nth-child(1){animation-duration:1.6s}
+  .hero-crane path:nth-child(2){animation-delay:1.2s}
+  .hero-crane path:nth-child(3){animation-delay:1.5s}
+  .hero-crane path:nth-child(4){animation-delay:1.8s}
+  .hero-crane path:nth-child(5){animation-delay:2.1s}
+  @keyframes draw{to{stroke-dashoffset:0}}
+  @media(prefers-reduced-motion:reduce){
+    .hero-crane path{animation:none;stroke-dashoffset:0}
+  }
+  @media(max-width:800px){
+    .hero{grid-template-columns:1fr;min-height:auto}
+    .hero-crane{margin:0 auto}
+  }
+
+  /* Hanko-Stempel */
+  .hanko{
+    position:absolute;bottom:3rem;right:6vw;
+    width:54px;height:54px;
+    border:2px solid var(--hanko);
+    color:var(--hanko);
+    display:flex;align-items:center;justify-content:center;
+    font-family:'Shippori Mincho',serif;font-size:1.5rem;font-weight:700;
+    transform:rotate(-6deg);
+    opacity:.85;
+  }
+  @media(max-width:800px){.hanko{display:none}}
+
+  /* ---------- Sections ---------- */
+  section{padding:6rem 6vw;max-width:1300px;margin:0 auto}
+  .sec-mark{
+    font-size:.78rem;letter-spacing:.4em;text-transform:uppercase;
+    color:var(--hanko);font-weight:600;font-family:'Outfit',sans-serif;
+    margin-bottom:1rem;display:block;
+  }
+  section h2{font-size:clamp(1.9rem,4vw,2.9rem);margin-bottom:2.6rem}
+
+  /* Angebot: Liste statt Cards – editorial */
+  .offer-list{border-top:1.5px solid var(--ink)}
+  .offer{
+    display:grid;
+    grid-template-columns:auto 1fr 2fr auto;
+    gap:2rem;align-items:baseline;
+    padding:2rem 0;
+    border-bottom:1.5px solid var(--ink);
+    transition:padding-left .2s;
+  }
+  .offer:hover{padding-left:1rem}
+  .offer .no{
+    font-family:'Shippori Mincho',serif;font-size:1rem;color:var(--hanko);
+  }
+  .offer h3{font-size:1.5rem}
+  .offer p{color:var(--ink-soft);font-size:.98rem}
+  .offer a{
+    color:var(--ink);font-size:.85rem;letter-spacing:.1em;text-transform:uppercase;
+    text-decoration:none;font-weight:600;white-space:nowrap;
+  }
+  .offer a:hover{color:var(--hanko)}
+  @media(max-width:800px){
+    .offer{grid-template-columns:auto 1fr;row-gap:.5rem}
+    .offer p{grid-column:2}
+    .offer a{grid-column:2}
+  }
+
+  /* Story: heller Nebel-Block mit großem Zitat */
+  .story{
+    background:var(--mist);
+    max-width:none;
+  }
+  .story-inner{max-width:1300px;margin:0 auto;padding:0 6vw}
+  .story blockquote{
+    font-family:'Shippori Mincho',serif;
+    font-size:clamp(1.5rem,3.4vw,2.4rem);
+    font-weight:500;
+    max-width:24ch;
+    margin-bottom:2.5rem;
+  }
+  .story blockquote em{font-style:normal;color:var(--hanko)}
+  .story p{max-width:60ch;color:var(--ink-soft);margin-bottom:1.1rem}
+  .story p strong{color:var(--ink);font-weight:600}
+
+  /* Über mich */
+  .about-grid{
+    display:grid;grid-template-columns:.8fr 1.2fr;gap:4rem;align-items:center;
+  }
+  .portrait{
+    aspect-ratio:3/4;
+    background:var(--mist);
+    border:1.5px solid var(--ink);
+    display:flex;align-items:center;justify-content:center;
+    color:var(--ink-soft);font-size:.9rem;text-align:center;padding:1rem;
+    position:relative;
+  }
+  .portrait::after{
+    content:"";position:absolute;inset:10px;
+    border:1px solid var(--hanko);opacity:.4;pointer-events:none;
+  }
+  .about-grid p{margin-bottom:1.1rem;color:var(--ink-soft)}
+  .about-grid strong{color:var(--ink);font-weight:600}
+  @media(max-width:800px){
+    .about-grid{grid-template-columns:1fr}
+    .portrait{max-width:320px}
+  }
+
+  /* Kontakt */
+  .contact{text-align:center;padding-bottom:7rem}
+  .contact h2{margin-bottom:1rem}
+  .contact p{max-width:46ch;margin:0 auto 2.5rem;color:var(--ink-soft)}
+
+  footer{
+    border-top:1.5px solid var(--ink);
+    padding:2rem 6vw;font-size:.82rem;
+    display:flex;justify-content:space-between;gap:1rem;flex-wrap:wrap;
+    color:var(--ink-soft);
+    letter-spacing:.05em;
+  }
+  footer a{color:var(--ink);text-decoration:none}
+  footer a:hover{color:var(--hanko)}
+</style>
+</head>
+<body>
+
+<nav>
+  <a class="logo" href="#">
+    <svg viewBox="0 0 72 72" aria-hidden="true" fill="none" stroke-linejoin="round" stroke-linecap="round">
+      <!-- Ensō: unvollständiger Tuschekreis in Hanko-Rot, Öffnung oben rechts -->
+      <path d="M 52 12 A 30 30 0 1 1 41 7" stroke="#c1442e" stroke-width="3.4"/>
+      <!-- Kranich, fliegt durch die Öffnung -->
+      <g stroke="#1a1a18" stroke-width="2.4">
+        <path d="M26 42 L42 36 L39 49 L29 47 Z"/>
+        <path d="M26 42 L10 49 L29 47"/>
+        <path d="M32 41 L38 14 L41 38"/>
+        <path d="M42 36 L56 24 L64 20 L57 28 L44 41"/>
+      </g>
+    </svg>
+    Zugvogel Yoga
+  </a>
+  <ul>
+    <li><a href="#angebot">Angebot</a></li>
+    <li><a href="#geschichte">Geschichte</a></li>
+    <li><a href="#ueber">Über mich</a></li>
+    <li><a class="nav-cta" href="#kontakt">Buchen</a></li>
+  </ul>
+</nav>
+
+<header class="hero">
+  <div class="hero-text">
+    <div class="kanji-mark">渡り鳥 — ZUGVOGEL</div>
+    <h1>Yoga für alle<br><span class="stroke">Lebenslagen.</span></h1>
+    <p class="lede">
+      Mobiles Yoga in Bonn &amp; Umgebung. Ich komme dorthin, wo du gerade bist –
+      ins Studio, ins Büro, in deinen Alltag. Du bringst nur dich mit.
+    </p>
+    <div class="hero-actions">
+      <a class="btn btn-ink" href="#kontakt">Probestunde</a>
+      <a class="btn btn-line" href="#angebot">Angebot</a>
+    </div>
+  </div>
+  <div class="hero-crane">
+    <svg viewBox="0 0 72 72" aria-hidden="true">
+      <!-- Ensō zeichnet sich zuerst -->
+      <path class="crane-line crane-enso" d="M 52 12 A 30 30 0 1 1 41 7"/>
+      <path class="crane-line" d="M26 42 L42 36 L39 49 L29 47 Z"/>
+      <path class="crane-line" d="M26 42 L10 49 L29 47"/>
+      <path class="crane-line crane-accent" d="M32 41 L38 14 L41 38"/>
+      <path class="crane-line" d="M42 36 L56 24 L64 20 L57 28 L44 41"/>
+    </svg>
+  </div>
+  <div class="hanko" aria-hidden="true">飛</div>
+</header>
+
+<section id="angebot">
+  <span class="sec-mark">Angebot</span>
+  <h2>Drei Wege, mitzufliegen</h2>
+  <div class="offer-list">
+    <article class="offer">
+      <span class="no">一</span>
+      <h3>Vinyasa &amp; Yin</h3>
+      <p>Fließende Flows für Energie, ruhiges Yin für die Landung. Offene Kurse in wechselnden Studios – für alle Level.</p>
+      <a href="#kontakt">Termine →</a>
+    </article>
+    <article class="offer">
+      <span class="no">二</span>
+      <h3>Firmenyoga</h3>
+      <p>Kurze, wirksame Einheiten direkt im Büro oder online. Weniger Verspannung, mehr Gelassenheit unter Druck.</p>
+      <a href="#kontakt">Anfragen →</a>
+    </article>
+    <article class="offer">
+      <span class="no">三</span>
+      <h3>Privatstunden</h3>
+      <p>Eins-zu-eins-Yoga, abgestimmt auf deine Lebenslage – Wiedereinstieg, Stressphase oder Zeit nur für dich.</p>
+      <a href="#kontakt">Anfragen →</a>
+    </article>
+  </div>
+</section>
+
+<section class="story" id="geschichte">
+  <div class="story-inner" style="padding-top:6rem;padding-bottom:6rem">
+    <span class="sec-mark">Die Geschichte</span>
+    <blockquote>
+      Kennst du deine <em>Zugunruhe</em>?
+    </blockquote>
+    <p>
+      Wenn die Zugzeit naht, spüren Vögel ein Kribbeln, das Forschende <strong>Zugunruhe</strong>
+      nennen: den tiefen Drang, sich zu bewegen – selbst dann, wenn sie gerade festsitzen.
+    </p>
+    <p>
+      Genau dieses Gefühl kennt dein Körper auch. Nach langen Tagen am Schreibtisch,
+      in vollen Wochen, in Lebenslagen, die sich eng anfühlen.
+    </p>
+    <p>
+      <strong>Zugvogel Yoga ist die Einladung, ihm zu folgen.</strong> Ohne festes Nest –
+      ich ziehe von Ort zu Ort und bringe die Praxis dorthin, wo du sie brauchst.
+    </p>
+  </div>
+</section>
+
+<section id="ueber">
+  <span class="sec-mark">Über mich</span>
+  <h2>Hallo, ich bin Linda.</h2>
+  <div class="about-grid">
+    <div class="portrait">[ Hier kommt dein Foto hin ]</div>
+    <div>
+      <p>
+        Yogalehrerin aus Bonn mit einem Faible für fließende Vinyasa-Sequenzen, tiefes Yin
+        und Stundenthemen, die im Alltag weiterwirken – von „Ambivalenz &amp; Balance" bis
+        „offen bleiben".
+      </p>
+      <p>
+        Ich glaube nicht an Yoga, für das man gelenkig, entspannt oder „bereit" sein muss.
+        Ich glaube an Yoga, das dich nimmt, wie der Tag dich gerade dagelassen hat.
+      </p>
+      <p><strong>Yoga für alle Lebenslagen. Im Kurs, im Unternehmen, bei dir.</strong></p>
+    </div>
+  </div>
+</section>
+
+<section class="contact" id="kontakt">
+  <span class="sec-mark">Kontakt</span>
+  <h2>Flieg eine Runde mit.</h2>
+  <p>
+    Schreib mir für eine Probestunde, ein Firmenyoga-Angebot oder einfach eine Frage.
+    Ich melde mich innerhalb von zwei Tagen zurück.
+  </p>
+  <a class="btn btn-ink" href="mailto:hallo@zugvogel-yoga.de">hallo@zugvogel-yoga.de</a>
+</section>
+
+<footer>
+  <span>© 2026 Zugvogel Yoga · Linda</span>
+  <span><a href="impressum.html">Impressum</a> · <a href="datenschutz.html">Datenschutz</a> · <a href="#">Instagram</a></span>
+</footer>
+
+</body>
+</html>
